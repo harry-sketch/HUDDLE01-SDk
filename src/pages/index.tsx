@@ -15,7 +15,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="bg-blue-500 w-full h-screen flex items-center justify-center">
-        <h1 className="text-white text-3xl font-bold">Hello World!!</h1>
+        <h1 className="text-white text-5xl font-bold underline">
+          Hello World!!
+        </h1>
       </main>
     </>
   );
