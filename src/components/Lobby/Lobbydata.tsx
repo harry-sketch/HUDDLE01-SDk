@@ -10,6 +10,9 @@ const LobbyData = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <div className="flex items-center gap-6">
+        <Button event="JOIN_LOBBY" className="px-6">
+          Join Lobby
+        </Button>
         <Button className="p-1.5" event="DISABLE_CAM">
           <BsCameraVideoOff size={25} />
         </Button>
