@@ -1,32 +1,22 @@
 import { useEventListener } from "@huddle01/react";
 import { useHuddle01Web } from "@huddle01/react/hooks";
-import { useEffect, useRef, useState } from "react";
-import { CiMicrophoneOn, CiMicrophoneOff } from "react-icons/ci";
-import { BsCameraVideo, BsCameraVideoOff } from "react-icons/bs";
-import Button from "../common/Button";
+import { useEffect, useRef } from "react";
+
 import { useRouter } from "next/router";
+import useSdkStore from "@/store";
+import RoomData from "../RoomData/RoomData";
+import LobbyData from "./Lobbydata";
+import Video from "../Video/Video";
 
 const Lobby = () => {
-  const [displayName, setDisplayName] = useState<string>("");
-
   const { state, send } = useHuddle01Web();
 
-  const { consumers } = state.context;
-
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const { push } = useRouter();
 
   useEffect(() => {
     send("INIT");
     send("JOIN_LOBBY");
   }, [send]);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
 
   useEventListener(state, "JoinedLobby.Cam.On", () => {
     if (videoRef.current && state.context.camStream) {
@@ -34,61 +24,28 @@ const Lobby = () => {
     }
   });
 
-  // Funs
-  const handleJoinRoom = () => {
-    send("JOIN_ROOM");
-
-    push("/room");
-  };
-
   return (
-    <div className="flex  flex-col items-center justify-center gap-6 w-full h-full">
+    <div className="flex  flex-col items-center justify-center w-full h-full gap-4">
       <div className="glassPanel">
-        <video
-          ref={videoRef}
-          muted
-          autoPlay
-          className="rounded-lg object-cover w-full h-full"
-          width="100%"
-          height="100%"
-        />
+        Me Video:
+        <video ref={videoRef} autoPlay muted></video>
+        <div className="grid grid-cols-4">
+          {Object.keys(state.context.consumers)
+            .filter(
+              (consumerId) =>
+                state.context.consumers[consumerId] &&
+                state.context.consumers[consumerId].track?.kind === "video"
+            )
+            .map((consumerId) => (
+              <Video
+                key={consumerId}
+                track={state.context.consumers[consumerId].track}
+              />
+            ))}
+        </div>
       </div>
 
-      <div>
-        <input
-          ref={inputRef}
-          type="text"
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-          placeholder="Enter your first Name"
-          className="glassButton text-base focus:outline-none border-none p-2.5 rounded-lg w-96"
-        />
-      </div>
-
-      <div className="flex items-center gap-6">
-        <Button className="p-1.5" event="DISABLE_CAM">
-          <BsCameraVideoOff size={25} />
-        </Button>
-
-        <Button className="p-1.5" event="ENABLE_CAM">
-          <BsCameraVideo size={25} />
-        </Button>
-
-        <button
-          onClick={handleJoinRoom}
-          type="button"
-          className="glassButton h-10 w-auto flex items-center justify-center text-base rounded-xl font-bold px-6"
-        >
-          Start Demo
-        </button>
-
-        <Button className="p-1.5" event="ENABLE_MIC">
-          <CiMicrophoneOn size={25} />
-        </Button>
-        <Button className="p-1.5" event="ENABLE_MIC">
-          <CiMicrophoneOff size={25} />
-        </Button>
-      </div>
+      <LobbyData />
     </div>
   );
 };
