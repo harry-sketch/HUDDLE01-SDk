@@ -2,8 +2,14 @@ import Button from "../common/Button";
 import { CiMicrophoneOn, CiMicrophoneOff } from "react-icons/ci";
 import { BsCameraVideo, BsCameraVideoOff } from "react-icons/bs";
 import useSdkStore from "@/store";
+import { Dispatch, SetStateAction } from "react";
 
-const LobbyData = () => {
+interface Props {
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const LobbyData: React.FC<Props> = ({ setIsOpen, isOpen }) => {
   const displayName = useSdkStore((state) => state.displayName);
   const setDisplayName = useSdkStore((state) => state.setDisplayName);
 
@@ -42,6 +48,14 @@ const LobbyData = () => {
         <Button event="LEAVE_ROOM" className="px-6">
           Leave Room
         </Button>
+
+        <button
+          type="button"
+          onClick={() => setIsOpen((prev) => !prev)}
+          className="px-6 glassButton h-10 w-auto flex items-center justify-center text-sm rounded-xl font-bold"
+        >
+          {isOpen ? "Close Sidebar" : "Open Sidebar"}
+        </button>
 
         {/* <Button className="p-1.5" event="PRODUCE_MIC">
           <CiMicrophoneOn size={25} />

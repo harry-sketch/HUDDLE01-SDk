@@ -13,7 +13,7 @@ const Button: React.FC<Props> = ({ children, className, event }) => {
     <button
       type="button"
       onClick={() => send(event)}
-      className={`glassButton h-10 w-auto flex items-center justify-center text-base rounded-xl font-bold ${className}`}
+      className={`glassButton h-10 w-auto flex items-center justify-center text-sm rounded-xl font-bold ${className}`}
     >
       {children}
     </button>

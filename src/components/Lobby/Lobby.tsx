@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import LobbyData from "./Lobbydata";
 import Video from "../Video/Video";
+import Sidebar from "../Sidebar/Sidebar";
 
 const Lobby = () => {
   const { state, send } = useHuddle01Web();
@@ -48,10 +49,10 @@ const Lobby = () => {
           </div>
         </div>
 
-        <LobbyData />
+        <LobbyData setIsOpen={setIsOpen} isOpen={isOpen} />
       </div>
 
-      {isOpen ? <div className="glassPanel w-96">sed</div> : null}
+      {isOpen ? <Sidebar /> : null}
     </div>
   );
 };
