@@ -4,15 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import { CiMicrophoneOn, CiMicrophoneOff } from "react-icons/ci";
 import { BsCameraVideo, BsCameraVideoOff } from "react-icons/bs";
 import Button from "../common/Button";
+import { useRouter } from "next/router";
 
 const Lobby = () => {
   const [displayName, setDisplayName] = useState<string>("");
 
   const { state, send } = useHuddle01Web();
 
+  const { consumers } = state.context;
+
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { push } = useRouter();
 
   useEffect(() => {
     send("INIT");
@@ -28,6 +33,13 @@ const Lobby = () => {
       videoRef.current.srcObject = state.context.camStream as MediaStream;
     }
   });
+
+  // Funs
+  const handleJoinRoom = () => {
+    send("JOIN_ROOM");
+
+    push("/room");
+  };
 
   return (
     <div className="flex  flex-col items-center justify-center gap-6 w-full h-full">
@@ -62,9 +74,13 @@ const Lobby = () => {
           <BsCameraVideo size={25} />
         </Button>
 
-        <Button event="JOIN_ROOM" className="px-6">
+        <button
+          onClick={handleJoinRoom}
+          type="button"
+          className="glassButton h-10 w-auto flex items-center justify-center text-base rounded-xl font-bold px-6"
+        >
           Start Demo
-        </Button>
+        </button>
 
         <Button className="p-1.5" event="ENABLE_MIC">
           <CiMicrophoneOn size={25} />
