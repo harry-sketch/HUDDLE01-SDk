@@ -31,7 +31,7 @@ const Video: React.FC<Props> = ({ track }) => {
     }
   }, [track]);
 
-  return <video ref={videoRef} autoPlay />;
+  return <video ref={videoRef} autoPlay className="object-cover w-full" />;
 };
 
 export default Video;

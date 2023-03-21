@@ -43,12 +43,12 @@ const LobbyData = () => {
           Leave Room
         </Button>
 
-        <Button className="p-1.5" event="PRODUCE_MIC">
+        {/* <Button className="p-1.5" event="PRODUCE_MIC">
           <CiMicrophoneOn size={25} />
         </Button>
         <Button className="p-1.5" event="STOP_PRODUCING_MIC">
           <CiMicrophoneOff size={25} />
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
